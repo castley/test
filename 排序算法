@@ -1,0 +1,50 @@
+//冒泡排序算法（1）
+///
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+void Swap(int &a,int &b);
+void Exchange(int s[], int n)
+{
+	for(int i = 0; i < n; i++)
+	{
+		for(int j = 1; j < n - i; j++)
+		{
+			if(s[j] > s[j-1])
+				Swap(s[j],s[j-1]);
+		}
+	}
+}
+void Swap(int &a, int &b)
+{
+	int temp;
+	temp = a;
+	a = b;
+	b = temp;
+}
+void Printf(int s[], int n)
+{
+	for(int i = 0 ; i < n; i++)
+	{
+		cout << s[i]<<",";
+	}
+	cout << endl;
+}
+
+int main()
+{
+	int s[6]={1,4,3,6,8,2};
+	//改成手动输入数组
+	//int s[10];
+	Printf(s,6);
+	//while(scanf("%d",s) != EOF)
+	//{
+	//	/*len = strlen(s);*/
+	//	
+	//}
+	Exchange(s,6);
+	Printf(s,6);
+	system("pause");
+	return 0;
+}
