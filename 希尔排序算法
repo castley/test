@@ -1,0 +1,44 @@
+//希尔排序算法//
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+void shell_sort(int a[], int n)
+{
+	int temp;
+	int gap = n/2;
+	for(; gap > 0; gap/=2)  //步长可以自己设计
+	{
+		for(int i = 0; i< gap; i++)
+		{
+			for(int j = i+gap; j < n; j += gap)
+			{
+				int temp = a[j];
+				int k = j - gap;
+				while(k >=0 && a[k]> temp)
+				{
+					a[k+gap] = a[k]; //交换顺序
+					k = k - gap;
+				}	
+				a[k+gap] = temp;
+			}
+		}
+	}
+}
+int main()
+{
+	int a[6] = {21,13,34,9,67,45};
+	cout << "排序前的数组" << endl;
+	for(int i = 0; i< 6; i++)
+	{
+		cout << a[i] << ",";
+	}
+	shell_sort(a,6);
+	cout << "排序后的数组" << endl;
+	for(int i = 0; i< 6; i++)
+	{
+		cout << a[i] << ",";
+	}
+	system("pause");
+	return 0;
+}
