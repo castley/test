@@ -1,0 +1,41 @@
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+void Swap(int &a, int &b);
+void sort4(int a[], int n)
+{
+	for(int i = 0; i<n; i++)
+	{
+		int mindex = i;
+		for(int j = i+1; j < n; j++)
+		{
+			if(a[j] < a[mindex])
+				mindex = j;
+		}
+		Swap(a[i],a[mindex]);
+	}
+}
+void Swap(int &a,int &b)
+{
+	int temp = a;
+	a = b;
+	b = temp;
+}
+void printf1(int a[],int n)
+{
+	for(int i = 0; i< n; i++)
+	{
+		cout  << a[i] << ',';
+	}
+	cout << endl;
+}
+int main()
+{
+	int a[6] = {2,6,12,34,23,19};
+	printf1(a,6);
+	sort4(a,6);
+	printf1(a,6);
+	system("pause");
+	return 0;
+}
