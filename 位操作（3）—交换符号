@@ -1,0 +1,18 @@
+//交换符号
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+int change2(int &a)
+{
+	return ~a+1;
+}
+int main()
+{
+	int a = 17;
+	int b = -21;
+	cout << "交换前a =" << a << "交换前 b= " << b << endl;
+	cout << "交换后 a= " << change2(a) << "交换后 b= " << change2(b) << endl;
+	system("pause");
+	return 0;
+}
