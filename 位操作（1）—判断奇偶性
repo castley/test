@@ -1,0 +1,19 @@
+//找出0-100内的所有奇数
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+int main()
+{
+	for(int i = 0; i <= 100; i++)
+	{
+		if(i&1)
+			cout << i << ",";
+	}
+	cout<< endl;
+	system("pause");
+	return 0;
+}
+
+//代替了原有的
+//if(i % 2==0)
