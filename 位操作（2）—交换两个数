@@ -1,0 +1,24 @@
+//交换两个数的值
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+void change(int &a, int &b)
+{
+	if(a != b)
+	{
+		a^=b;
+		b^=a;
+		a^=b;
+	}
+}
+int main()
+{
+	int a = 13;
+	int b =24;
+	cout << "a=" << a << "b=" << b << endl;
+	change(a,b);
+	cout << "交换后a="<< a << "交换后b=" << b << endl;
+	system("pause");
+	return 0;
+}
