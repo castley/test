@@ -1,0 +1,25 @@
+//取绝对值
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+int my_abs(int a)
+{
+	int i = a>>31;
+	return ((i^a)-i);
+}
+int my(int a)
+{
+	if(a<0)
+		return -a;
+	else
+		return a;
+}
+int main()
+{
+	int a = -12;
+	int b = 31;
+	cout << my_abs(a) << my_abs(b) << endl;
+	cout << my(a);
+	system("pause");
+	return 0;
+}
