@@ -1,0 +1,35 @@
+//筛选素数
+#include <iostream>
+#include <stdlib.h>
+#include <memory.h>
+using namespace std;
+
+const int maxn = 100;   //不能分配常数为0的数组   解决方案是  在前面加const!!!!
+int primes[maxn / 3 +1];
+bool flag[maxn];
+int pi;
+void getPrime()
+{
+	pi = 0;
+	memset(flag,false,sizeof(flag));
+	for(int i = 2; i < maxn; i++)
+	{
+		if(!flag[i])
+			primes[pi++] = i;
+		for(int j = i; j < maxn; j = j + i)
+		{
+			flag[j] = true;
+		}
+	}
+}
+int main()
+{
+	getPrime();
+	for(int i = 0; i < pi; i++)
+	{
+		cout << primes[i] << ',';
+	}
+	cout << "1-100 一共有" << pi<<"个素数"<<endl;
+	system("pause");
+	return 0;
+}
