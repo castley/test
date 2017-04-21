@@ -1,0 +1,133 @@
+///////快速排序法 
+#include <iostream>
+#include <stdlib.h>
+#include <string>
+#include "student.h"
+#include "sortTestHelper.h"
+using namespace std;
+template<typename T>
+//void Swap(int &a, int &b);
+void selectionsort(T a[], int n)
+{
+	for(int i = 0; i< n; i++)
+	{
+		int minindex = i;
+		for(int j = i+1; j< n; j++)
+		{
+			if(a[j] < a[minindex])
+				minindex = j;
+		}
+		if(i!=minindex)
+		{
+			swap(a[i],a[minindex]);  //#include <algorithm> 里边有自带的交换函数。
+		}
+	}
+}
+//void Swap(int &a, int &b)
+//{
+//	a^=b;
+//	b^=a;
+//	a^=b;
+//}
+int main()
+{
+	int n = 100;
+	int *a= sortTestHelper::generateRandomArray(n,0,n);
+	selectionsort(a,n);
+	sortTestHelper::printArray(a,n);
+	/*for(int i = 0; i < 6; i++)
+	{
+		cout << a[i] << ",";
+	}
+	cout << endl;
+
+	float b[6] = {3.2,8.3,2,1,4,5};
+	selectionsort(b,6);
+	for(int i = 0; i < 6; i++)
+	{
+		cout << b[i] << ",";
+	}
+	cout << endl;
+
+	string c[3] = {"a","d","c"};
+	selectionsort(c,3);
+	for(int i = 0; i < 3; i++)
+	{
+		cout << c[i] << ",";
+	}
+
+	student d[3] = {{"c",90},{"d",100},{"a",90}};
+	selectionsort(d,3);
+	for(int i = 0; i < 3; i++)
+	{
+		cout << d[i] << ",";
+	}
+	cout << endl;*/
+	system("pause");
+	return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+#ifndef SELECTIONSORT_H
+#define SELECTIONSORT_H
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct student
+{
+	string name;
+	int score;
+
+	bool operator<(const student &s1)
+	{
+		return score!=s1.score? score < s1.score: name < s1.name;
+	}
+	//输出运算符重载
+	friend ostream& operator<<(ostream &os, const student &s)
+	{
+		os << "name:"<< s.name << "score:"<<s.score << endl;
+		return os;
+	}
+};
+#endif
+
+
+////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+#ifndef SORTTESTHELPER_H
+#define SORTTESTHELPER_H
+
+#include <iostream>
+#include <cassert>
+#include <ctime>
+using namespace std;
+
+namespace sortTestHelper
+{
+	int* generateRandomArray(int n, int rangeL, int rangeR)
+	{
+		assert(rangeL <= rangeR);
+		int *arr = new int[n];
+		//随机种子的设定
+		srand(time(NULL));
+		for(int i = 0; i < n; i++)
+		{
+			arr[i] = rand() % (rangeR - rangeL + 1) + rangeL;
+		}
+		return arr;
+	}
+
+	template<typename T>
+	void printArray(T arr[], int n)
+	{
+		for(int i = 0; i < n; i++)
+		{
+			cout << arr[i] << ",";
+		}
+		cout << endl;
+	}
+}
+#endif
+
