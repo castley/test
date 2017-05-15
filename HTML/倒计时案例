@@ -1,0 +1,79 @@
+<html>
+<head>
+<meta charset = "utf-8"/>
+<script type="text/javascript">
+window.onload=function(){
+	startTime();
+}
+function startTime(){
+//显示时间案例
+var today = new Date();
+var year = today.getFullYear();
+var month = today.getMonth()+1;
+var day = today.getDate();
+
+var d= today.getDay();//0-6分别代表星期天-星期六
+var week = new Array(7);
+week[0]="星期天";
+week[1]="星期1";
+week[2]="星期2";
+week[3]="星期3";
+week[4]="星期4";
+week[5]="星期5";
+week[6]="星期6";
+
+
+var h = today.getHours();
+var m = today.getMinutes();
+var s = today.getSeconds();
+h=check(h);
+m=check(m);
+s=check(s);
+document.getElementById("day").innerHTML=year+"年"+month+"月"+day+"日"+week[d];
+document.getElementById("txt").innerHTML=h+":"+m+":"+s;
+t = setTimeout("startTime()",500);
+
+//倒计时案例
+var newtime = new Date("2,14,2018");
+var nowtime = new Date();
+var dead= newtime.getTime()-nowtime.getTime();
+var deadtime = Math.ceil(dead/(1000*60*60*24));
+if(deadtime > 0)
+{
+	document.getElementById("deadline").innerHTML=deadtime;
+}
+
+//限时抢购的案例
+var end = new Date("2017/10/1,12:00:00");
+var start=new Date();
+var process=(end.getTime()-start.getTime())/1000;
+var d = parseInt(process/(3600*24));
+var h = parseInt(process/(3600)%24);
+var m = parseInt(process/(60)%60);
+var sec = parseInt(process%60);
+document.getElementById("line").innerHTML=d+"天"+h+"小时"+m+"分钟"+sec+"秒";
+if(process<=0)
+{
+	document.getElementById("line").innerHTML ="团购结束";
+}
+
+
+}
+function check(i){
+if(i<10)
+{
+i="0"+i;
+}
+return i;
+
+}
+</script>
+</head>
+
+<body onload="startTime()">
+<div id ="day"></div>
+<div id="txt"></div>
+<div id="deadline"></div>
+<div id="line"></div>
+</body>
+</html>
