@@ -1,0 +1,10 @@
+class empty
+{
+	public:
+	empty();           				//缺省构造函数
+	empty(const empty&);			//构造函数
+	~empty();						//析构函数
+	empty& operator=(const empty&);	//赋值运算符
+	empty* operator&();				//取址运算符
+	const empty* operator&() const;	//取址运算符 const
+}
