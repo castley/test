@@ -1,0 +1,26 @@
+#include<iostream.h>
+class base
+{
+public:
+base(){cout<<”constructing base class”<<endl;}
+~base(){cout<<”destructing base class”<<endl;}
+};
+class subs:public base
+{
+public:
+subs(){cout<<”constructing sub class”<<endl;}
+~subs(){cout<<”destructing sub class”<<endl;}
+};
+void main()
+{
+subs s;
+}
+
+//考点：：单继承情况下构造函数和析构函数的调用顺序
+//在这里base也基类，subs为派生类
+//输出为：
+//constructing base class
+//constructing sub class
+//destructing sub class
+//destructing base class
+// 注意：在单继承情况下  首先调用基类的构造函数 然后调用派生类的构造函数，析构函数的调用顺序正好相反
