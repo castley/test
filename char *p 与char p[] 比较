@@ -1,0 +1,157 @@
+所有的字符串常量都被放在静态的内存区
+因为字符串常量很少需要修改，放在静态内存区会提高效率
+（1）
+char str1[] = "abc";
+char str2[] = "abc";
+const char str3[] = "abc";
+const char str4[] = "abc";
+const char *str5 = "abc";
+const char *str6 = "abc";
+char *str7 = "abc";
+char *str8 = "abc";
+
+cout << ( str1 == str2 ) << endl;
+cout << ( str3 == str4 ) << endl;
+cout << ( str5 == str6 ) << endl;
+cout << ( str7 == str8 ) << endl;
+结果是：0 0 1 1
+
+解答：
+str1、str2 str3 str4 都属于字符串变量，它们有各自的内存空间，所以不相等
+但是str5 str6 str7 str8 是指针，是字符串常量，他们指向相同的常量区间，所以相等
+
+（2）
+char *c = "chengxu"
+"chengxu" 的类型是 const char *, 编译器在编译时会在静态数据区为"chengxu"分配空间来存储这个字符串，然后
+将首地址赋值给字符指针 char *c。当指针c试图改变"chengxu"时，比如c[0]='a'，编译不会出错，但运行会出错
+改成char c[]="chengxu"就不会出错。char c[]="chengxu"现在内存开辟已连续存储单元，然后将字符串存到存储单元。
+
+（3）
+函数中可以返回已经申请空间的局部变量的指针。
+char *str()
+{
+   char *t ;
+   t=(char*)maloc(50) ;
+   return t ;
+}
+
+问题引入：
+#include<stdio.h>
+char *returnStr()
+{
+  char *p ="hello world";
+  return p;  
+}
+int main()
+{
+  char *t = NULL;       //一定要初始化，好习惯
+  t = returnStr();
+  printf("%s\n",t);
+  
+  return 0;
+}
+
+这个没有任何问题。因为"helloworld"是一个字符串常量，存放在静态数据区，把该字符串常量存放在静态数据区的首地址赋值给了指针 str;
+所以returnStr函数退出时，该字符串常量所在的内存不会回收，故能够通过指针顺利无误的访问。
+
+但是，相比较：
+#include <stdio.h>
+char *returnStr()
+{
+    char p[]="hello world!";
+    return p;
+}
+int main()
+{
+    char *t=NULL;//一定要初始化，好习惯
+     t=returnStr();
+    printf("%s\n", t);
+   
+    return 0;
+}
+有问题！！！
+解答："hello world"是一个字符串常量，放在静态数据区，但是，把一个字符串常量赋值给了一个局部变量（char []数组）,该局部变量放在栈中。
+这样就有两块内容一样的内存。也就是说char p[]="hello world! 这条语句让“hello world!”这个字符串在内存中有两份拷贝，一份在动态分配的栈中
+另一份在静态存储区域中。
+与前面例子本质的区别：当returnStr函数退出时，栈要清空，局部变量的内存也被清空了。
+所以这是的函数返回的是一个已经被释放的内存地址，所以打印出来的是乱码。
+
+如果函数的返回值非要是一个局部变量的地址，那么这个局部变量一定要申明为static类型，
+#include <stdio.h>
+char *returnStr()
+{
+    static char p[]="hello world!";
+    return p;
+}
+int main()
+{
+    char *str=NULL;
+     str=returnStr();
+    printf("%s\n", str);
+   
+    return 0;
+}
+
+（4）
+//返回的是局部变量的地址，该地址位于动态数据区，栈里
+char *s1()
+{
+    char* p1 = "qqq";           //为了测试‘char p[]="Hello world!"’中的字符串在静态存储区是否也有一份拷贝
+    char p[]="Hello world!";
+    char* p2 = "w";             //为了测试‘char p[]="Hello world!"’中的字符串在静态存储区是否也有一份拷贝
+    printf("in s1 p=%p\n", p);
+    printf("in s1 p1=%p\n", p1);
+    printf("in s1: string's address: %p\n", &("Hello world!"));
+    printf("in s1 p2=%p\n", p2);
+    return p;
+}
+
+//返回的是字符串常量的地址，该地址位于静态数据区
+char *s2()
+{
+    char *q="Hello world!";
+    printf("in s2 q=%p\n", q);
+    printf("in s2: string's address: %p\n", &("Hello world!"));
+    return q;
+}
+
+//返回的是静态局部变量的地址，该地址位于静态数据区
+char *s3()
+{
+    static char r[]="Hello world!";
+    printf("in s3 r=%p\n", r);
+    printf("in s3: string's address: %p\n", &("Hello world!"));
+    return r;
+}
+int main()
+{
+    char *t1, *t2, *t3;
+     t1=s1();
+     t2=s2();
+     t3=s3();
+   
+    printf("in main:");
+    printf("p=%p, q=%p, r=%p\n", t1, t2, t3);
+    printf("%s\n", t1);
+    printf("%s\n", t2);
+    printf("%s\n", t3);
+   
+    return 0;
+}
+运行输出结果：
+in s1 p=0013FF0C
+in s1 p1=00431084
+in s1: string's address: 00431074
+in s1 p2=00431070
+in s2 q=00431074
+in s2: string's address: 00431074
+in s3 r=00434DC0
+in s3: string's address: 00431074
+in main:p=0013FF0C, q=00431074, r=00434DC0
+$
+Hello world!
+Hello world!
+ 
+//////////////////////////////结论！！！///////////////////////////////
+字符串常量，之所以称之为常量，因为它可以看做是一个没有命名的字符串且为常量，放在静态数据存储区域。
+静态数据区存放的是全局变量和静态变量。字符串常量又可以被称之为一个无名的静态变量。
