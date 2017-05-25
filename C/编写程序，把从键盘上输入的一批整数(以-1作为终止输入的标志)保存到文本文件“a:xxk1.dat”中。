@@ -1,19 +1,22 @@
-
-# include <iostream.h>
-# include <fstream.h>
-# include <stdlib.h>
+编写程序，把从键盘上输入的一批整数(以-1作为终止输入的标志)保存到文本文件“a:xxk1.dat”中。
+#include<iostream.h>
+#include<fstream.h>
+#include<stdlib.h>
+void main()
+{
+ ofstream fout("a:xxk1.dat");      //定义输出文件流并打开文件
+ if(!fout)
+ {
+   cerr<<"文件没有打开"<< endl;
+   exit(1);        //退出整个程序，终止进程，并返回1给操作系统。
+ }
+ int x;
+ cin>>x;
+ while(x!=-1)
+ {
+   fout<<x<<" ";  //将数组内容逐个保存到文件中
+   cin>>x;
+ }      //能够从键盘想文件正确输出数据
  
-void main() {
-ofstream fout(“a:xxk1.dat”);  // 定义输出文件流并打开文件
-if (!fout){
-cerr <<”文件没有打开！”<<endl;
-exit(1);
-}        // 可有可无
-int x;
-cin>>x;
-while (x!=-1) {
-fout<<x<<’ ‘;
-cin>>x;
-}    // 能够从键盘向文件正确输出数据
-fout.close();   // 关闭输出文件流
+fout.close();     // 关闭输出文件流
 }
